@@ -1,0 +1,26 @@
+import os
+from flask import Flask, jsonify, render_template_string
+import json
+app = Flask(__name__)
+STATE_FILE = "bot_state.json"
+def load_state():
+    if os.path.exists(STATE_FILE):
+        try:
+            with open(STATE_FILE,"r") as f:
+                return json.load(f)
+        except: pass
+    return {"auto_open": False, "auto_close": False, "auto_remove": False, "scalping_mode": False, "balance": 100.0}
+def save_state(s):
+    with open(STATE_FILE,"w") as f:
+        json.dump(s,f)
+state = load_state()
+HTML = """<html><head><meta name="viewport" content="width=device-width"><title>Prince Gold</title><style>body{background:#0f172a;color:white;font-family:Arial;text-align:center;padding:20px}h1{color:gold}.card{background:#1e293b;padding:20px;border-radius:15px;margin:15px}button{padding:15px;margin:8px;border:none;border-radius:12px;font-weight:bold;width:42%}.on{background:#22c55e;color:white}.off{background:#334155;color:white}</style></head><body><h1>PRINCE GOLD V2</h1><div class="card"><h2>Balance: ${{balance}}</h2><p>BOT ONLINE 24/7</p></div><div class="card"><button class="{{'on' if auto_open else 'off'}}" onclick="fetch('/toggle/auto_open').then(()=>location.reload())">AUTO OPEN {{'ON' if auto_open else 'OFF'}}</button><button class="{{'on' if auto_close else 'off'}}" onclick="fetch('/toggle/auto_close').then(()=>location.reload())">AUTO CLOSE {{'ON' if auto_close else 'OFF'}}</button><button class="{{'on' if auto_remove else 'off'}}" onclick="fetch('/toggle/auto_remove').then(()=>location.reload())">AUTO REMOVE {{'ON' if auto_remove else 'OFF'}}</button><button class="{{'on' if scalping_mode else 'off'}}" onclick="fetch('/toggle/scalping_mode').then(()=>location.reload())">SCALPING {{'ON' if scalping_mode else 'OFF'}}</button></div></body></html>"""
+@app.route('/')
+def home(): return render_template_string(HTML, **state)
+@app.route('/toggle/<key>')
+def toggle(key):
+    if key in state: state[key]=not state[key]; save_state(state)
+    return jsonify(state)
+@app.route('/health')
+def health(): return "OK",200
+if __name__=='__main__': app.run(host='0.0.0.0',port=int(os.environ.get("PORT",10000)))
