@@ -1,33 +1,5 @@
-from flask import Flask, jsonify
-import requests
-from datetime import datetime
-app = Flask(__name__)
-def get_gold_price():
-    try:
-            r = requests.get("https://api.metals.live/v1/spot/gold", timeout=5)
-                    d = r.json()
-                            return float(d[0] if isinstance(d, list) else d.get('price',2650))
-                                except:
-                                        return 2650.50
-                                        @app.route('/')
-                                        def home():
-                                            price = get_gold_price()
-                                                signal = "BUY"
-                                                    html = f"""<html><head><meta name="viewport" content="width=device-width, initial-scale=1">
-                                                        <style>body{{background:#000;color:gold;text-align:center;font-family:Arial;padding:20px}}
-                                                          .card{{background:#111;border:2px solid gold;border-radius:15px;padding:20px;margin:auto;max-width:400px}}
-                                                            .price{{font-size:50px;font-weight:bold}}.sig{{background:green;color:white;padding:15px;border-radius:10px;font-size:30px;margin:10px}}</style>
-                                                                </head><body><h1>👑 PRINCE GOLD PRO 👑</h1>
-                                                                    <div class="card"><h3>XAUUSD GOLD LIVE</h3><div class="price">${price:.2f}</div>
-                                                                        <div class="sig">{signal} NOW</div><p>{datetime.now().strftime('%H:%M:%S')}</p>
-                                                                            <p>TP1: ${price+15:.2f} | SL: ${price-20:.2f}</p></div>
-                                                                                <button onclick="location.reload()" style="padding:15px 30px;background:gold;border:none;border-radius:10px;font-weight:bold;margin-top:20px">🔄 REFRESH</button>
-                                                                                    </body></html>"""
-flask
-requests
-gunicorn                                                                                        return html
-                                                                                        @app.route('/price')
-                                                                                        def price_api():
+Flask==2.3.3
+gunicorn==21.2.0                                                                                 def price_api():
                                                                                             return jsonify({"gold":get_gold_price()})
                                                                                             if __name__ == "__main__":
                                                                                                 app.run(host="0.0.0.0", port=10000)
