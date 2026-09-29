@@ -1,53 +1,27 @@
-from flask import Flask, request, jsonify, render_template_string
-import os, random, datetime
+from flask import Flask
+import os
 
 app = Flask(__name__)
-VERIFY_TOKEN = "prince123"
-users = set()
-
-def get_gold_signal():
-    price = round(random.uniform(2640, 2680), 2)
-    change = round(random.uniform(-5, 5), 2)
-    trend = "BUY" if change > 0 else "SELL"
-    strength = random.choice(["STRONG", "MODERATE"])
-    return price, change, trend, strength
-
-HTML = """
-<!DOCTYPE html>
-<html>
-<head><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Prince Gold</title>
-<style>
-body{background:#0a0a0a;color:#fff;font-family:Arial;padding:15px}
-.card{background:#1a1a1a;border:1px solid #d4af37;border-radius:15px;padding:20px;margin:15px 0}
-.gold{color:#d4af37;font-size:36px;font-weight:bold}
-.buy{color:#00ff88;font-size:26px}.sell{color:#ff4444;font-size:26px}
-.btn{background:#d4af37;color:#000;padding:12px 20px;border-radius:20px;text-decoration:none;font-weight:bold}
-</style>
-</head>
-<body>
-<h1>PRINCE GOLD BOT</h1>
-<p>LIVE Trading Bot</p>
-<div class="card">
-<h3>XAUUSD / GOLD</h3>
-<div class="gold">${{price}}</div>
-<p>Change: {{change}} | {{trend}} {{strength}}</p>
-<div class="{{'buy' if trend=='BUY' else 'sell'}}">{{trend}} SIGNAL</div>
-<p>{{time}}</p>
-</div>
-<div class="card">
-<p>Status: <b style="color:#0f8">LIVE</b></p>
-<p>Users: {{users}} | Webhook: /webhook Ready</p>
-</div>
-<div class="card">
-<h3>WhatsApp Commands</h3>
-<p>GOLD = Signal<br>PRICE = Price<br>HELP = Menu</p>
-</div>
-<script>setTimeout(()=>location.reload(),30000)</script>
-</body>
-</html>
-"""
 
 @app.route('/')
 def home():
-    return "Prince Gold Bot is Live
+    return """
+    <html>
+    <head><title>Prince Gold Bot</title></head>
+    <body style="background:#000;color:gold;text-align:center;padding:50px;font-family:Arial">
+    <h1>👑 PRINCE GOLD BOT 👑</h1>
+    <h2 style="color:white">Status: LIVE ✅</h2>
+    <p>Gold Trading Dashboard is Running</p>
+    <div style="border:2px solid gold;padding:20px;margin:20px">
+    <h3>XAUUSD Signals</h3>
+    <p>Waiting for market...</p>
+    <p style="color:lime">BOT ACTIVE</p>
+    </div>
+    <p>by PrinceNdlovu</p>
+    </body>
+    </html>
+    """
+
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 10000))
+    app.run(host="0.0.0.0", port=port)
