@@ -1,1 +1,20 @@
-
+import os
+from flask import Flask
+app = Flask(__name__)
+@app.route('/')
+def home():
+    return """
+    <html>
+    <body style="background:#000;color:gold;text-align:center;padding:50px;font-family:Arial">
+    <h1>👑 PRINCE GOLD MASTER V1 👑</h1>
+    <h2 style="color:white">XAUUSD ELITE SYSTEM</h2>
+    <h3 style="color:#00ff88">$4158.00 - STRONG BUY</h3>
+    <p style="color:white">BUY 0.01 LOT - BOT ACTIVE</p>
+    <button style="background:gold;color:black;padding:20px 50px;font-size:24px;border:none;border-radius:12px;font-weight:bold;margin-top:20px">V1 LIVE - 1</button>
+    <p style="margin-top:30px;color:gray">Built on Phone | No Laptop Needed</p>
+    </body>
+    </html>
+    """
+if __name__ == '__main__':
+    port=int(os.environ.get("PORT",10000))
+    app.run(host='0.0.0.0',port=port)
