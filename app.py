@@ -1,6 +1,12 @@
 import os, time, hmac, hashlib, base64
 from flask import Flask, Response, request, jsonify
 app=Flask(__name__)
+1  import os, time, hmac, hashlib, base64
+2  from flask import Flask, Response, reque
+3  app=Flask(__name__)
+4  from strategies import get_signal
+5
+6  # ===== YOUR SECRET...
 
 # ===== YOUR SECRET - ONLY YOU KNOW! CHANGE IT! =====
 MASTER_SECRET="PRINCE-GOLD-XM411308190-DURBAN-2026"
@@ -161,3 +167,4 @@ setInterval(()=>{document.getElementById('timer').innerText=30 - Math.floor(Date
 
 if __name__=='__main__':
     app.run(host='0.0.0.0',port=int(os.environ.get("PORT",10000)))
+    
