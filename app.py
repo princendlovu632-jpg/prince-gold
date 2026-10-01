@@ -1,16 +1,22 @@
 import os, time, hmac, hashlib, base64
 from flask import Flask, Response, request, jsonify
+from strategies import get_signal
 app=Flask(__name__)
 1  import os, time, hmac, hashlib, base64
-2  from flask import Flask, Response, reque
-3  app=Flask(__name__)
-4  from strategies import get_signal
-5
-6  # ===== YOUR SECRET...
+2  from flask import Flask, Response, request
+3  from strategies import get_signal
+4  app=Flask(__name__)
+5  from flask import jsonify
+6  @app.route("/api/signal", methods=["POST"])
+7  def signal_api():
+8      j=request.get_json() or {}
+9      candles=j.get("candles",[{"open":2650,"high":2652,"low":2649,"close":2651}]*30)
+10     return jsonify(get_signal(candles))
+11
+12 LOGO_B64=(
 
-# ===== YOUR SECRET - ONLY YOU KNOW! CHANGE IT! =====
-MASTER_SECRET="PRINCE-GOLD-XM411308190-DURBAN-2026"
-# ===================================================
+
+
 
 LOGO_B64=(
 "UklGRp4QAABXRUJQVlA4IJIQAAAQOgCdASp4AHgAPqFAmUmmI6KhNPnvQMAUCWoAvCOmUzScuV+/Lrd1"
